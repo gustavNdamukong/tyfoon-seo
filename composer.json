@@ -1,0 +1,27 @@
+{
+    "name": "gustocoder/tyfoon-seo",
+    "description": "Laravel seo package. It will help you optimize your web pages for seo. It will walk you through the creation of all necessary seo tags, often explaining to you the purpose of each tag, its format or syntax, etc as it does so. The seo elements will then be generated for you during the rendering of every view file for which there is an seo record created. You can then simply grab and inject that into the HTML layout of your view files",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Gustocoder\\TyfoonSeo\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Gustocoder\\TyfoonSeo\\TyfoonSeoServiceProvider"
+            ]
+        }
+    },
+    "authors": [
+        {
+            "name": "Gustav Ndamukong"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require": {
+    }
+}
