@@ -19,14 +19,14 @@ return new class extends Migration
             $table->string('og_site');
             $table->string('og_article_publisher');
             $table->string('og_author');
-            $table->string('og_geo_placename');
-            $table->string('og_geo_region');
-            $table->string('og_geo_position');
-            $table->string('og_fb_id');
-            $table->string('og_twitter_card');
-            $table->string('og_twitter_site');
-            $table->string('og_reflang_alternate1');
-            $table->string('og_reflang_alternate2');
+            $table->string('geo_placename');
+            $table->string('geo_region');
+            $table->string('geo_position');
+            $table->string('fb_id');
+            $table->string('twitter_card');
+            $table->string('twitter_site');
+            $table->string('reflang_alternate1');
+            $table->string('reflang_alternate2');
             $table->timestamps();
         });
     }

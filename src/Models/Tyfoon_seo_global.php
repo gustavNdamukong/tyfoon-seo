@@ -19,12 +19,6 @@ class Tyfoon_Seo_global extends Model
     public $timestamps = false;
 
     public $guard = [];
-
-
-    public function getGlobalSeo($globalId)
-    {
-        return $this->getById($globalId, true); /////
-    }
 }
 
 

@@ -1,4 +1,4 @@
-@extends('layouts.main.app')
+@extends('tyfoon-seo::layouts.main.app')
 
 @section('content')
 
@@ -40,8 +40,12 @@
 		<div class="container">
             <div class="row">
                 <div class="col-sm-12 col-lg-12">
-                    <h1 style="text-align:center;">Welcome to the Typhoon SEO module</h1>
-                    <h4 class="text-center"><b>Super-charge the SEO efforts of your web application</b></h4>
+
+                    @include('tyfoon-seo::partials/_notificationsPartial')
+                    @include('tyfoon-seo::partials/_sideSlideInMenuPartial')
+
+                    <h1 style="text-align:center;">Welcome to Typhoon SEO</h1>
+                    <h4 class="text-center"><b>Super-charge the SEO efforts of your Laravel application</b></h4>
 
                     <h3>
                         <i class="fa fa-bullhorn section-title-icon"></i>&nbsp;<span
@@ -66,17 +70,37 @@
                                 </thead>
                                 <tbody>
                                     <div class="list-group list-group-horizontal">
+                                        <?php /////echo '<pre>'; die(print_r($globalDataSet)); 
+                                        /*[attributes:protected] => Array
+                                        (
+                                            [id] => 3
+                                            [og_locale] => en_CA
+                                            [og_site] => NolimitMedia
+                                            [og_article_publisher] => 
+                                            [og_author] => 										
+                                            [geo_placename] => Toronto
+                                            [geo_region] => CA
+                                            [geo_position] => 43.65323 -79.38318
+                                            [fb_id] => 
+                                            [twitter_card] => website
+                                            [twitter_site] => 										
+                                            [reflang_alternate1] => 
+                                            [reflang_alternate2] => 
+                                            [created_at] => 
+                                            [updated_at] => 
+                                        ) */
+                                        ?>
                                         @foreach ($globalDataSet as $globalData) 
                                             <tr>
                                                 <a href="">
-                                                    <td>{{ $globalData.seo_global_id }}</td>
-                                                    <td>{{ $globalData.seo_global_geo_placename }}</td>
-                                                    <td>{{ $globalData.seo_global_geo_region }}</td>
+                                                    <td>{{ $globalData->id }}</td>
+                                                    <td>{{ $globalData->geo_placename }}</td>
+                                                    <td>{{ $globalData->geo_region }}</td>
                                                     <td>
-                                                        <a class="clickable-record" 
+                                                        <a class="clickable-record btn btn-primary btn-sm" 
                                                             title="View Global SEO Data" 
-                                                            href="{{ route('edit-gloal-seo', $globalData.seo_global_id) }}"><i 
-                                                            class="fa fa-eye"></i>
+                                                            href="{{ route('view-global-seo', $globalData->id) }}">
+                                                            <i class="fa fa-eye"></i>
                                                         </a>
                                                     </td>
                                                 </a>
@@ -114,12 +138,12 @@
                                         @foreach ($seoData as $sdata) 
                                             <tr>
                                                 <a href="">
-                                                    <td>{{ $sdata.seo_page_name }}</td>
-                                                    <td>{{ $sdata.seo_meta_title_en }}</td>
+                                                    <td>{{ $sdata->page_name }}</td>
+                                                    <td>{{ $sdata->meta_title_en }}</td>
                                                     <td>
                                                         <a class="clickable-record" 
                                                             title="View Page SEO Data" 
-                                                            href="{{ route('page-detail', $sdata.seo_id) }}"><i 
+                                                            href="{{ route('view-page-seo', $sdata->id) }}"><i 
                                                             class="fa fa-eye"></i>
                                                         </a>
                                                     </td>
@@ -142,4 +166,4 @@
             </div>
 		</div>
 	</section>
-    @endsection
+@endsection

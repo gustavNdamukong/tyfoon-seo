@@ -24,19 +24,20 @@ class TyfoonSeoServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__.'/../resources/views/', $namespace);
 
         //load migrations
-        /*$this->publishesMigrations([
-            __DIR__.'/../database/migrations' => database_path('migrations'),
-        ]);*/
         $this->publishes([
             __DIR__.'/../database/migrations' => database_path('migrations'),
         ]);
 
-        $this->publishes([
+        /*$this->publishes([
             __DIR__.'/../config/tyfoon-seo.php' => config_path('tyfoon-seo.php'),
-        ]);
+        ]);*/
 
         $this->publishes([
             __DIR__.'/../public' => public_path('vendor/tyfoon-seo'),
         ], 'public');
+
+        /*$this->publishes([
+            __DIR__.'/../resources/views' => resource_path('views/vendor/tyfoon-seo'),
+        ]);*/
     }
 }

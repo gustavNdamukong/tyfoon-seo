@@ -20,12 +20,6 @@ class Tyfoon_seo extends Model
     public $timestamps = false;
 
     public $guard = [];
-
-
-    public function getPageSeo($pageId)
-    {
-        return $this->getById($pageId, true); /////
-    }
 }
 
 
