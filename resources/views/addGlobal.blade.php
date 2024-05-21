@@ -58,7 +58,8 @@
 										<legend>Site Geo Data</legend>
 										<div class="col-sm-12 col-md-12 col-lg-12 form-group">
 											<label for='seo_global_geo_placename'>Geo Place name (Country/City e.g. England or London)</label>
-											<input typpe='text' name='seo_global_geo_placename' id='seo_global_geo_placename'  class='form-control' />
+											<input typpe='text' name='seo_global_geo_placename' id='seo_global_geo_placename' 
+												class='form-control' value="{{ old('seo_global_geo_placename') }}" />
 										</div>
 										<br />
 
@@ -68,7 +69,8 @@
 												</small>
 											</span>
 											<label for='seo_global_geo_region'>Geo Region (country abbrv e.g. UK or US)</label>
-											<input type='text' id='seo_global_geo_region' name='seo_global_geo_region' class='form-control' />
+											<input type='text' id='seo_global_geo_region' name='seo_global_geo_region' 
+												class='form-control' value="{{ old('seo_global_geo_region') }}" />
 										</div>
 										<br />
 
@@ -80,7 +82,7 @@
 
 											<label for='seo_global_geo_position'>Geo Position</label>
 											<input type='text' id='seo_global_geo_position' name='seo_global_geo_position' 
-												class='form-control' /> 
+												class='form-control' value="{{ old('seo_global_geo_position') }}" /> 
 										</div>
 										<br />
 
@@ -95,7 +97,7 @@
 
 											<label for='seo_global_reflang_alternate1'>Reflang alternate 1'</label>
 											<input type='text' id='seo_global_reflang_alternate1' name='seo_global_reflang_alternate1'  
-												class='form-control' /> 
+												class='form-control' value="{{ old('seo_global_reflang_alternate1') }}" /> 
 										</div>
 										<br />
 
@@ -110,7 +112,7 @@
 
 											<label for='seo_global_reflang_alternate2'>Reflang alternate 2</label>
 											<input type='text' id='seo_global_reflang_alternate2' name='seo_global_reflang_alternate2' 
-												class='form-control' /> 
+												class='form-control' value="{{ old('seo_global_reflang_alternate2') }}" /> 
 										</div>
 									</fieldset>	
 									<br />
@@ -126,7 +128,7 @@
 											
 											<label for='seo_global_og_locale'>Locale</label>
 											<input type='text' id='seo_global_og_locale' name='seo_global_og_locale' 
-												class='form-control' />
+												class='form-control' value="{{ old('seo_global_og_locale') }}" />
 										</div>
 										<br />
 
@@ -136,7 +138,8 @@
 											</span>
 											
 											<label for='seo_global_og_site'>OG: Site</label>
-											<input type='text' id='seo_global_og_site' name='seo_global_og_site' class='form-control' /> 
+											<input type='text' id='seo_global_og_site' name='seo_global_og_site' 
+												class='form-control' value="{{ old('seo_global_og_site') }}" /> 
 										</div>
 										<br />
 
@@ -148,7 +151,7 @@
 											
 											<label for='seo_global_og_article_publisher'>OG: Article Publisher</label>
 											<input type='text' id='seo_global_og_article_publisher', name='seo_global_og_article_publisher' 
-												class='form-control' /> 
+												class='form-control' value="{{ old('seo_global_og_article_publisher') }}" /> 
 										</div>
 										<br />
 
@@ -160,8 +163,7 @@
 											
 											<label for='seo_global_og_author'>OG: Author</label>
 											<textarea id='seo_global_og_author' name='seo_global_og_author' 
-												class='form-control'>
-											</textarea>
+												class='form-control'>{{ old('seo_global_og_author') }}</textarea>
 										</div>
 										<br />
 
@@ -173,7 +175,7 @@
 											
 											<label for='seo_global_fb_id'>Facebook Page ID</label>
 											<input type='text' id='seo_global_fb_id' name='seo_global_fb_id' 
-												class='form-control' /> 
+												class='form-control' value="{{ old('seo_global_fb_id') }}" /> 
 										</div>
 									</fieldset>	
 									<br />
@@ -186,7 +188,7 @@
 											
 											<label for='seo_global_twitter_card'>Twitter Card</label>
 											<input type='text' id='seo_global_twitter_card' name='seo_global_twitter_card' 
-												class='form-control' /> 
+												class='form-control' value="{{ old('seo_global_twitter_card') }}" /> 
 										</div>
 										<br />
 
@@ -197,8 +199,7 @@
 											
 											<label for='seo_global_twitter_site'>Twitter Site'</label>
 											<textarea id='seo_global_twitter_site' name='seo_global_twitter_site' 
-												class='form-control'>
-											</textarea>
+												class='form-control'>{{ old('seo_global_twitter_site') }}</textarea>
 											</div>
 									</fieldset>
 								</div>

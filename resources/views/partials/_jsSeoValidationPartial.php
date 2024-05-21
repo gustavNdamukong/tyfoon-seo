@@ -1,10 +1,9 @@
 
 <script type="text/javascript">
-    $(document).ready(function () { 
-        //make an ajax call-this calls the function 'checkPageName()' below  
-        $(document).on('blur', '#addPage #seo_page_name', function(e)
-        {  
-            e.preventDefault(); 
+
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelector('#addPageForm #seo_page_name').addEventListener('blur', function(e) {
+            e.preventDefault();
             checkPageName(this);
         });
 
@@ -14,28 +13,30 @@
         function checkPageName(pageName) {
             if (pageName.value == '') {
                 document.getElementById('info').innerHTML = '';
-                return
+                return;
             }
 
-            params = "pageName=" + pageName.value
-            request = new ajaxRequest()
-            request.open("POST", "seo/checkPageName", true)
-            request.setRequestHeader("Content-type",
-                "application/x-www-form-urlencoded")
+            params = "pageName=" + pageName.value;
+            var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+            request = new ajaxRequest();
+            request.open("POST", "/testproj/public/seo/check-page-name", true);
+            request.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+            request.setRequestHeader("X-CSRF-TOKEN", csrfToken);
 
             request.onreadystatechange = function () {
                 if (this.readyState == 4) {
                     if (this.status == 200) {
                         if (this.responseText != null) {
                             document.getElementById('info').innerHTML =
-                                this.responseText
+                                this.responseText;
                         }
-                        else alert("Ajax error: No data received")
+                        else alert("Ajax error: No data received");
                     }
-                    else alert("Ajax error: " + this.statusText)
+                    else alert("Ajax error: " + this.statusText);
                 }
             }
-            request.send(params)
+            request.send(params);
         }
 
 

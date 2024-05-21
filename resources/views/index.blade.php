@@ -70,26 +70,6 @@
                                 </thead>
                                 <tbody>
                                     <div class="list-group list-group-horizontal">
-                                        <?php /////echo '<pre>'; die(print_r($globalDataSet)); 
-                                        /*[attributes:protected] => Array
-                                        (
-                                            [id] => 3
-                                            [og_locale] => en_CA
-                                            [og_site] => NolimitMedia
-                                            [og_article_publisher] => 
-                                            [og_author] => 										
-                                            [geo_placename] => Toronto
-                                            [geo_region] => CA
-                                            [geo_position] => 43.65323 -79.38318
-                                            [fb_id] => 
-                                            [twitter_card] => website
-                                            [twitter_site] => 										
-                                            [reflang_alternate1] => 
-                                            [reflang_alternate2] => 
-                                            [created_at] => 
-                                            [updated_at] => 
-                                        ) */
-                                        ?>
                                         @foreach ($globalDataSet as $globalData) 
                                             <tr>
                                                 <a href="">

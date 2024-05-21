@@ -4,10 +4,8 @@ namespace Gustocoder\TyfoonSeo\Http\Controllers;
 
 
 use App\Http\Controllers\Controller;
-/////use Illuminate\Database\Eloquent\Model;
 use Gustocoder\TyfoonSeo\Models\Tyfoon_seo_global;
 use Gustocoder\TyfoonSeo\Models\Tyfoon_seo;
-/////use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 
 
@@ -47,150 +45,51 @@ class TyfoonSeoController extends Controller
     }
 
 
-    //----------------- HANDLE GLOBAL SEO DATA ----------------------------//
+
     public function addGlobal()
     {
         return view('tyfoon-seo::addGlobal');
     }
 
 
-
-    public function saveNewGlobal() 
+    public function saveNewGlobal(Request $request) 
     {
-        $seo_global_geo_placename = '';
-        $seo_global_geo_region = '';
-        $seo_global_geo_position = '';
-        $seo_global_reflang_alternate1 = '';
-        $seo_global_reflang_alternate2 = '';
-        $seo_global_og_locale = '';
-        $seo_global_og_site = '';
-        $seo_global_og_article_publisher = '';
-        $seo_global_og_author = '';
-        $seo_global_fb_id = '';
-        $seo_global_twitter_card = '';
-        $seo_global_twitter_site = '';
+        $requestArray = $request->all();
 
-        //The only validation we will do for this feature is a for a blank submission
-        //when it comes to SEO, we dont know which fields are important to you, so we will   
-        //rather not enforce anything.
-
-        if ($_SERVER["REQUEST_METHOD"] == "POST")
+        unset($requestArray['_token']);
+        if (trim(implode('', $requestArray)) == "")
         {
-            unset($_POST['_token']);
-            if (trim(implode('', $_POST)) == "")
-            {
-                return redirect()->back()->with('danger', 'Please complete the form!');
-            } 
-        }
-
-        if (
-            (isset($_POST['seo_global_geo_placename'])) &&
-            ($_POST['seo_global_geo_placename'] != '')
-        )
-        {
-            $seo_global_geo_placename = $_POST['seo_global_geo_placename'];
-        }
-
-        if (
-            (isset($_POST['seo_global_geo_region'])) &&
-            ($_POST['seo_global_geo_region'] != '')
-        )
-        {
-            $seo_global_geo_region = $_POST['seo_global_geo_region'];
-        }
-
-        if (
-            (isset($_POST['seo_global_geo_position'])) &&
-            ($_POST['seo_global_geo_position'] != '')
-        )
-        {
-            $seo_global_geo_position = $_POST['seo_global_geo_position']; 
-        }
-
-        if (
-            (isset($_POST['seo_global_reflang_alternate1'])) &&
-            ($_POST['seo_global_reflang_alternate1'] != '')
-        )
-        {
-            $seo_global_reflang_alternate1 = $_POST['seo_global_reflang_alternate1'];
-        }
-
-        if (
-            (isset($_POST['seo_global_reflang_alternate2'])) &&
-            ($_POST['seo_global_reflang_alternate2'] != '')
-        )
-        {
-            $seo_global_reflang_alternate2 = $_POST['seo_global_reflang_alternate2'];
-        }
-
-        if (
-            (isset($_POST['seo_global_og_locale'])) &&
-            ($_POST['seo_global_og_locale'] != '')
-        )
-        {
-            $seo_global_og_locale = $_POST['seo_global_og_locale'];
-        }
-
-        if (
-            (isset($_POST['seo_global_og_site'])) &&
-            ($_POST['seo_global_og_site'] != '')
-        )
-        {
-            $seo_global_og_site = $_POST['seo_global_og_site']; 
-        }
-
-        if (
-            (isset($_POST['seo_global_og_article_publisher'])) &&
-            ($_POST['seo_global_og_article_publisher'] != '')
-        )
-        {
-            $seo_global_og_article_publisher = $_POST['seo_global_og_article_publisher'];
+            return redirect()->back()->with('danger', 'Please complete the form!');
         } 
 
-        if (
-            (isset($_POST['seo_global_og_author'])) &&
-            ($_POST['seo_global_og_author'] != '')
-        )
-        {
-            $seo_global_og_author = $_POST['seo_global_og_author'];
-        } 
+        //field-specific validation rules
+        $request->validate([
+            "seo_global_geo_placename" =>           'required',
+            "seo_global_geo_region" =>              'required',
+            "seo_global_geo_position" =>            'required',
+            "seo_global_reflang_alternate1" =>      'required',
+            "seo_global_reflang_alternate2" =>      'required',
+            "seo_global_og_locale" =>               'required',
+            "seo_global_og_site" =>                 'required',
+            "seo_global_og_article_publisher" =>    'required',
+            "seo_global_og_author" =>               'required',
+            "seo_global_fb_id" =>                   'required',
+            "seo_global_twitter_card" =>            'required',
+            "seo_global_twitter_site" =>            'required',
+        ]);
 
-        if (
-            (isset($_POST['seo_global_fb_id'])) &&
-            ($_POST['seo_global_fb_id'] != '')
-        )
-        {
-            $seo_global_fb_id = $_POST['seo_global_fb_id'];
-        } 
-
-        if (
-            (isset($_POST['seo_global_twitter_card'])) &&
-            ($_POST['seo_global_twitter_card'] != '')
-        )
-        {
-            $seo_global_twitter_card = $_POST['seo_global_twitter_card'];
-        } 
-
-        if (
-            (isset($_POST['seo_global_twitter_site'])) &&
-            ($_POST['seo_global_twitter_site'] != '')
-        )
-        {
-            $seo_global_twitter_site = $_POST['seo_global_twitter_site'];
-        }
-        
-        $this->seo_global->geo_placename         = $seo_global_geo_placename;
-        $this->seo_global->geo_region            = $seo_global_geo_region;
-        $this->seo_global->geo_position          = $seo_global_geo_position;
-        $this->seo_global->reflang_alternate1    = $seo_global_reflang_alternate1;
-        $this->seo_global->reflang_alternate2    = $seo_global_reflang_alternate2;
-        $this->seo_global->og_locale             = $seo_global_og_locale;
-        $this->seo_global->og_site               = $seo_global_og_site;
-        $this->seo_global->og_article_publisher  = $seo_global_og_article_publisher;
-        $this->seo_global->og_author             = $seo_global_og_author;
-        $this->seo_global->fb_id                 = $seo_global_fb_id;
-        $this->seo_global->twitter_card          = $seo_global_twitter_card;
-        $this->seo_global->twitter_site          = $seo_global_twitter_site;
+        $this->seo_global->geo_placename         = $request->seo_global_geo_placename;
+        $this->seo_global->geo_region            = $request->seo_global_geo_region;
+        $this->seo_global->geo_position          = $request->seo_global_geo_position;
+        $this->seo_global->reflang_alternate1    = $request->seo_global_reflang_alternate1;
+        $this->seo_global->reflang_alternate2    = $request->seo_global_reflang_alternate2;
+        $this->seo_global->og_locale             = $request->seo_global_og_locale;
+        $this->seo_global->og_site               = $request->seo_global_og_site;
+        $this->seo_global->og_article_publisher  = $request->seo_global_og_article_publisher;
+        $this->seo_global->og_author             = $request->seo_global_og_author;
+        $this->seo_global->fb_id                 = $request->seo_global_fb_id;
+        $this->seo_global->twitter_card          = $request->seo_global_twitter_card;
+        $this->seo_global->twitter_site          = $request->seo_global_twitter_site;
 
         $saved = $this->seo_global->save();
 
@@ -220,156 +119,36 @@ class TyfoonSeoController extends Controller
     }
 
 
-    public function saveGlobalSeoEdit()
+
+    public function saveGlobalSeoEdit(Request $request)
     {
-        $seo_global_id = '';
-        $seo_global_geo_placename = '';
-        $seo_global_geo_region = '';
-        $seo_global_geo_position = '';
-        $seo_global_reflang_alternate1 = '';
-        $seo_global_reflang_alternate2 = '';
-        $seo_global_og_locale = '';
-        $seo_global_og_site = '';
-        $seo_global_og_article_publisher = '';
-        $seo_global_og_author = '';
-        $seo_global_fb_id = '';
-        $seo_global_twitter_card = '';
-        $seo_global_twitter_site = '';
+        $request->validate([
+            'seo_global_id' => 'required|integer|exists:tyfoon_seo_global,id',
+        ]);
 
-        if (
-            (isset($_POST['seo_global_id'])) &&
-            ($_POST['seo_global_id'] != '')
-        )
-        {
-            $seo_global_id = $_POST['seo_global_id'];
-        }
+        $newSeoGlobal = $this->seo_global::find($request->seo_global_id);
+        $newSeoGlobal->geo_placename         = $request->seo_global_geo_placename;
+        $newSeoGlobal->geo_region            = $request->seo_global_geo_region;
+        $newSeoGlobal->geo_position          = $request->seo_global_geo_position;
+        $newSeoGlobal->reflang_alternate1    = $request->seo_global_reflang_alternate1;
+        $newSeoGlobal->reflang_alternate2    = $request->seo_global_reflang_alternate2;
+        $newSeoGlobal->og_locale             = $request->seo_global_og_locale;
+        $newSeoGlobal->og_site               = $request->seo_global_og_site;
+        $newSeoGlobal->og_article_publisher  = $request->seo_global_og_article_publisher;
+        $newSeoGlobal->og_author             = $request->seo_global_og_author;
+        $newSeoGlobal->fb_id                 = $request->seo_global_fb_id;
+        $newSeoGlobal->twitter_card          = $request->seo_global_twitter_card;
+        $newSeoGlobal->twitter_site          = $request->seo_global_twitter_site;
+        $updated = $newSeoGlobal->save(); 
 
-        if (
-            (isset($_POST['seo_global_geo_placename'])) &&
-            ($_POST['seo_global_geo_placename'] != '')
-        )
+        if ($updated)
         {
-            $seo_global_geo_placename = $_POST['seo_global_geo_placename'];
-        }
-
-        if (
-            (isset($_POST['seo_global_geo_region'])) &&
-            ($_POST['seo_global_geo_region'] != '')
-        )
-        {
-            $seo_global_geo_region = $_POST['seo_global_geo_region'];
-        }
-
-        if (
-            (isset($_POST['seo_global_geo_position'])) &&
-            ($_POST['seo_global_geo_position'] != '')
-        )
-        {
-            $seo_global_geo_position = $_POST['seo_global_geo_position']; 
-        }
-
-        if (
-            (isset($_POST['seo_global_reflang_alternate1'])) &&
-            ($_POST['seo_global_reflang_alternate1'] != '')
-        )
-        {
-            $seo_global_reflang_alternate1 = $_POST['seo_global_reflang_alternate1'];
-        }
-
-        if (
-            (isset($_POST['seo_global_reflang_alternate2'])) &&
-            ($_POST['seo_global_reflang_alternate2'] != '')
-        )
-        {
-            $seo_global_reflang_alternate2 = $_POST['seo_global_reflang_alternate2'];
-        }
-
-        if (
-            (isset($_POST['seo_global_og_locale'])) &&
-            ($_POST['seo_global_og_locale'] != '')
-        )
-        {
-            $seo_global_og_locale = $_POST['seo_global_og_locale'];
-        }
-
-        if (
-            (isset($_POST['seo_global_og_site'])) &&
-            ($_POST['seo_global_og_site'] != '')
-        )
-        {
-            $seo_global_og_site = $_POST['seo_global_og_site']; 
-        }
-
-        if (
-            (isset($_POST['seo_global_og_article_publisher'])) &&
-            ($_POST['seo_global_og_article_publisher'] != '')
-        )
-        {
-            $seo_global_og_article_publisher = $_POST['seo_global_og_article_publisher'];
-        } 
-
-        if (
-            (isset($_POST['seo_global_og_author'])) &&
-            ($_POST['seo_global_og_author'] != '')
-        )
-        {
-            $seo_global_og_author = $_POST['seo_global_og_author'];
-        } 
-
-        if (
-            (isset($_POST['seo_global_fb_id'])) &&
-            ($_POST['seo_global_fb_id'] != '')
-        )
-        {
-            $seo_global_fb_id = $_POST['seo_global_fb_id'];
-        } 
-
-        if (
-            (isset($_POST['seo_global_twitter_card'])) &&
-            ($_POST['seo_global_twitter_card'] != '')
-        )
-        {
-            $seo_global_twitter_card = $_POST['seo_global_twitter_card'];
-        } 
-
-        if (
-            (isset($_POST['seo_global_twitter_site'])) &&
-            ($_POST['seo_global_twitter_site'] != '')
-        )
-        {
-            $seo_global_twitter_site = $_POST['seo_global_twitter_site'];
-        }
-        
-        if ($seo_global_id != '')
-        {
-            $newSeoGlobal = $this->seo_global::find($seo_global_id);
-            $newSeoGlobal->geo_placename         = $seo_global_geo_placename;
-            $newSeoGlobal->geo_region            = $seo_global_geo_region;
-            $newSeoGlobal->geo_position          = $seo_global_geo_position;
-            $newSeoGlobal->reflang_alternate1    = $seo_global_reflang_alternate1;
-            $newSeoGlobal->reflang_alternate2    = $seo_global_reflang_alternate2;
-            $newSeoGlobal->og_locale             = $seo_global_og_locale;
-            $newSeoGlobal->og_site               = $seo_global_og_site;
-            $newSeoGlobal->og_article_publisher  = $seo_global_og_article_publisher;
-            $newSeoGlobal->og_author             = $seo_global_og_author;
-            $newSeoGlobal->fb_id                 = $seo_global_fb_id;
-            $newSeoGlobal->twitter_card          = $seo_global_twitter_card;
-            $newSeoGlobal->twitter_site          = $seo_global_twitter_site;
-            $updated = $newSeoGlobal->save(); 
-
-            if ($updated)
-            {
-                return redirect()->route('seo-home')->with('success', 'The global SEO data was updated');
-            }
-            else
-            {
-                return redirect()->back()->with('danger', 'Model seo_global could not be updated');
-            }
+            return redirect()->route('seo-home')->with('success', 'The global SEO data was updated');
         }
         else
         {
-            return redirect()->back()->with('danger', 'The ID of that global record could not be verified');
-        }                            
+            return redirect()->back()->with('danger', 'Model seo_global could not be updated');
+        }                        
     }
 
 
@@ -389,17 +168,6 @@ class TyfoonSeoController extends Controller
 
 
 
-    public function getSeoByName($pageName)
-    {
-        ////$seo = new Seo();
-        /*$whereClause = [
-            'seo_page_name' => "$pageName"
-        ];
-
-        return $this->seo->selectWhere([],$whereClause);*/
-    }
-
-
 
     public function addPage()
     {
@@ -408,9 +176,12 @@ class TyfoonSeoController extends Controller
 
 
 
+
     public function savePageSeo(Request $request)
     { 
         //The page name is the only field we make required.
+        //We dont know which fields are important for your specifc target page, so we will   
+        //rather not enforce anything.
         $request->validate([
             'seo_page_name' => 'required|string',
         ]);
@@ -473,23 +244,19 @@ class TyfoonSeoController extends Controller
 
 
 
-    public function viewPageSeo($pageId) /////pageDetail
+
+    public function viewPageSeo($pageId)
     {
         $pageData = $this->seo::find($pageId);
-        /////echo '<pre>'; die(print_r($globalSeoData));
         return view('tyfoon-seo::pageDetail', ['data' => $pageData]);
     }
+
 
 
     public function editPageSeo($pageId)
     {
         $pageSeoData = $this->seo::find($pageId);
         return view('tyfoon-seo::editPage', ['pageData' => $pageSeoData]);
-        /*$seo = new Seo();
-        $data = $seo->getPageSeo($pageId);
-        $view = DGZ_View::getModuleView('seo', 'editPage', $this, 'html');
-        $this->setPageTitle('Edit Page Seo');
-        $view->show($data);*/
     }
 
 
@@ -503,8 +270,6 @@ class TyfoonSeoController extends Controller
             'seo_page_name' => 'required|string',
         ]);
 
-        //--------------------------------------------------------------
-        //echo '<pre>'; dd($request); die();
         $newSeo = $this->seo::find($request->seo_id);
         $newSeo->page_name               = $request->seo_page_name;
         $newSeo->meta_title_en           = $request->seo_meta_title_en;
@@ -561,565 +326,45 @@ class TyfoonSeoController extends Controller
         {
             return redirect()->back()->with('danger', 'The page SEO data could not be updated');
         }
-        //--------------------------------------------------------------
-
-
-       /* $error = '';
-
-        $seo_id = '';
-        $seo_page_name = '';
-        $seo_meta_title_en = '';
-        $seo_meta_title_fre = '';
-        $seo_meta_title_es = '';
-        $seo_meta_desc_en = '';
-        $seo_meta_desc_fre = '';
-        $seo_meta_desc_es = '';
-        $seo_dynamic = '';
-        $seo_keywords_en = '';
-        $seo_keywords_fre = '';
-        $seo_keywords_es = '';
-        $seo_canonical_href = '';
-        $seo_no_index = '';
-        $seo_h1_text_en = '';
-        $seo_h1_text_fre = '';
-        $seo_h1_text_es = '';
-        $seo_h2_text_en = '';
-        $seo_h2_text_fre = '';
-        $seo_h2_text_es = '';
-        $seo_page_content_en = '';
-        $seo_page_content_fre = '';
-        $seo_page_content_es = '';
-        $seo_og_title_en = '';
-        $seo_og_title_fre = '';
-        $seo_og_title_es = '';
-        $seo_og_desc_en = '';
-        $seo_og_desc_fre = '';
-        $seo_og_desc_es = '';
-        $seo_og_image = '';
-        $seo_og_image_width = '';
-        $seo_og_image_height = '';
-        $seo_og_image_secure_url = '';
-        $seo_og_type_en = '';
-        $seo_og_type_fre = '';
-        $seo_og_type_es = '';
-        $seo_og_url = '';
-        $seo_og_video = '';
-        $seo_twitter_title_en = '';
-        $seo_twitter_title_fre = '';
-        $seo_twitter_title_es = '';
-        $seo_twitter_desc_en = '';
-        $seo_twitter_desc_fre = '';
-        $seo_twitter_desc_es = '';
-        $seo_twitter_image = '';
-        
-        
-        if (
-            (isset($_POST['seo_id'])) &&
-            ($_POST['seo_id'] != '')
-        )
-        {
-            $seo_id = $_POST['seo_id'];
-        }
-        else
-        {
-            $error .= "Record ID not found <br />";
-        }
-
-        if (
-            (isset($_POST['seo_page_name'])) &&
-            ($_POST['seo_page_name'] != '')
-        )
-        {
-            $seo_page_name = $_POST['seo_page_name'];
-        }
-        else
-        {
-            $error .= "Please you have to provide the name of the page <br />";
-        }
-
-        if (
-            (isset($_POST['seo_meta_title_en'])) &&
-            ($_POST['seo_meta_title_en'] != '')
-        )
-        {
-            $seo_meta_title_en = $_POST['seo_meta_title_en'];
-        }
-
-        if (
-            (isset($_POST['seo_meta_title_fre'])) &&
-            ($_POST['seo_meta_title_fre'] != '')
-        )
-        {
-            $seo_meta_title_fre = $_POST['seo_meta_title_fre'];
-        }
-
-        if (
-            (isset($_POST['seo_meta_title_es'])) &&
-            ($_POST['seo_meta_title_es'] != '')
-        )
-        {
-            $seo_meta_title_es = $_POST['seo_meta_title_es']; 
-        }
-
-        if (
-            (isset($_POST['seo_meta_desc_en'])) &&
-            ($_POST['seo_meta_desc_en'] != '')
-        )
-        {
-            $seo_meta_desc_en = $_POST['seo_meta_desc_en'];
-        } 
-
-        if (
-            (isset($_POST['seo_meta_desc_fre'])) &&
-            ($_POST['seo_meta_desc_fre'] != '')
-        )
-        {
-            $seo_meta_desc_fre = $_POST['seo_meta_desc_fre'];
-        }
-
-        if (
-            (isset($_POST['seo_meta_desc_es'])) &&
-            ($_POST['seo_meta_desc_es'] != '')
-        )
-        {
-            $seo_meta_desc_es = $_POST['seo_meta_desc_es']; 
-        }  
-
-        if (
-            (isset($_POST['seo_dynamic'])) &&
-            ($_POST['seo_dynamic'] != '')
-        )
-        {
-            $seo_dynamic = $_POST['seo_dynamic'];
-        } 
-
-        if (
-            (isset($_POST['seo_keywords_en'])) &&
-            ($_POST['seo_keywords_en'] != '')
-        )
-        {
-            $seo_keywords_en = $_POST['seo_keywords_en'];
-        } 
-
-        if (
-            (isset($_POST['seo_keywords_fre'])) &&
-            ($_POST['seo_keywords_fre'] != '')
-        )
-        {
-            $seo_keywords_fre = $_POST['seo_keywords_fre'];
-        } 
-
-        if (
-            (isset($_POST['seo_keywords_es'])) &&
-            ($_POST['seo_keywords_es'] != '')
-        )
-        {
-            $seo_keywords_es = $_POST['seo_keywords_es'];
-        } 
-
-        if (
-            (isset($_POST['seo_canonical_href'])) &&
-            ($_POST['seo_canonical_href'] != '')
-        )
-        {
-            $seo_canonical_href = $_POST['seo_canonical_href'];
-        } 
-
-        if (
-            (isset($_POST['seo_no_index'])) &&
-            ($_POST['seo_no_index'] != '')
-        )
-        {
-            $seo_no_index = $_POST['seo_no_index'];
-        } 
-
-        if (
-            (isset($_POST['seo_h1_text_en'])) &&
-            ($_POST['seo_h1_text_en'] != '')
-        )
-        {
-            $seo_h1_text_en = $_POST['seo_h1_text_en']; 
-        }
-
-        if (
-            (isset($_POST['seo_h1_text_fre'])) &&
-            ($_POST['seo_h1_text_fre'] != '')
-        )
-        {
-            $seo_h1_text_fre = $_POST['seo_h1_text_fre'];  
-        }
-
-        if (
-            (isset($_POST['seo_h1_text_es'])) &&
-            ($_POST['seo_h1_text_es'] != '')
-        )
-        {
-            $seo_h1_text_es = $_POST['seo_h1_text_es'];
-        }  
-
-        if (
-            (isset($_POST['seo_h2_text_en'])) &&
-            ($_POST['seo_h2_text_en'] != '')
-        )
-        {
-            $seo_h2_text_en = $_POST['seo_h2_text_en'];  
-        }
-
-        if (
-            (isset($_POST['seo_h2_text_fre'])) &&
-            ($_POST['seo_h2_text_fre'] != '')
-        )
-        {
-            $seo_h2_text_fre = $_POST['seo_h2_text_fre'];  
-        }
-
-        if (
-            (isset($_POST['seo_h2_text_es'])) &&
-            ($_POST['seo_h2_text_es'] != '')
-        )
-        {
-            $seo_h2_text_es = $_POST['seo_h2_text_es'];
-        } 
-
-        if (
-            (isset($_POST['seo_page_content_en'])) &&
-            ($_POST['seo_page_content_en'] != '')
-        )
-        {
-            $seo_page_content_en = $_POST['seo_page_content_en'];  
-        }
-
-        if (
-            (isset($_POST['seo_page_content_fre'])) &&
-            ($_POST['seo_page_content_fre'] != '')
-        )
-        {
-            $seo_page_content_fre = $_POST['seo_page_content_fre']; 
-        }
-
-        if (
-            (isset($_POST['seo_page_content_es'])) &&
-            ($_POST['seo_page_content_es'] != '')
-        )
-        {
-            $seo_page_content_es = $_POST['seo_page_content_es'];
-        } 
-
-        if (
-            (isset($_POST['seo_og_title_en'])) &&
-            ($_POST['seo_og_title_en'] != '')
-        )
-        {
-            $seo_og_title_en = $_POST['seo_og_title_en']; 
-        }
-
-        if (
-            (isset($_POST['seo_og_title_fre'])) &&
-            ($_POST['seo_og_title_fre'] != '')
-        )
-        {
-            $seo_og_title_fre = $_POST['seo_og_title_fre'];  
-        }
-
-        if (
-            (isset($_POST['seo_og_title_es'])) &&
-            ($_POST['seo_og_title_es'] != '')
-        )
-        {
-            $seo_og_title_es = $_POST['seo_og_title_es'];  
-        } 
-
-        if (
-            (isset($_POST['seo_og_desc_en'])) &&
-            ($_POST['seo_og_desc_en'] != '')
-        )
-        {
-            $seo_og_desc_en = $_POST['seo_og_desc_en']; 
-        }
-
-        if (
-            (isset($_POST['seo_og_desc_fre'])) &&
-            ($_POST['seo_og_desc_fre'] != '')
-        )
-        {
-            $seo_og_desc_fre = $_POST['seo_og_desc_fre']; 
-        }
-
-        if (
-            (isset($_POST['seo_og_desc_es'])) &&
-            ($_POST['seo_og_desc_es'] != '')
-        )
-        {
-            $seo_og_desc_es = $_POST['seo_og_desc_es'];  
-        } 
-
-        if (
-            (isset($_POST['seo_og_image'])) &&
-            ($_POST['seo_og_image'] != '')
-        )
-        {
-            $seo_og_image = $_POST['seo_og_image'];
-        }
-
-        if (
-            (isset($_POST['seo_og_image_width'])) &&
-            ($_POST['seo_og_image_width'] != '')
-        )
-        {
-            $seo_og_image_width = $_POST['seo_og_image_width'];
-        }
-
-        if (
-            (isset($_POST['seo_og_image_height'])) &&
-            ($_POST['seo_og_image_height'] != '')
-        )
-        {
-            $seo_og_image_height = $_POST['seo_og_image_height'];
-        } 
-
-        if (
-            (isset($_POST['seo_og_image_secure_url'])) &&
-            ($_POST['seo_og_image_secure_url'] != '')
-        )
-        {
-            $seo_og_image_secure_url = $_POST['seo_og_image_secure_url'];
-        }  
-
-        if (
-            (isset($_POST['seo_og_type_en'])) &&
-            ($_POST['seo_og_type_en'] != '')
-        )
-        {
-            $seo_og_type_en = $_POST['seo_og_type_en']; 
-        }
-
-        if (
-            (isset($_POST['seo_og_type_fre'])) &&
-            ($_POST['seo_og_type_fre'] != '')
-        )
-        {
-            $seo_og_type_fre = $_POST['seo_og_type_fre']; 
-        }
-
-        if (
-            (isset($_POST['seo_og_type_es'])) &&
-            ($_POST['seo_og_type_es'] != '')
-        )
-        {
-            $seo_og_type_es = $_POST['seo_og_type_es'];
-        } 
-
-        if (
-            (isset($_POST['seo_og_url'])) &&
-            ($_POST['seo_og_url'] != '')
-        )
-        {
-            $seo_og_url = $_POST['seo_og_url'];
-        }
-
-        if (
-            (isset($_POST['seo_og_video'])) &&
-            ($_POST['seo_og_video'] != '')
-        )
-        {
-            $seo_og_video = $_POST['seo_og_video'];
-        }
-
-        if (
-            (isset($_POST['seo_twitter_title_en'])) &&
-            ($_POST['seo_twitter_title_en'] != '')
-        )
-        {
-            $seo_twitter_title_en = $_POST['seo_twitter_title_en'];  
-        }
-
-        if (
-            (isset($_POST['seo_twitter_title_fre'])) &&
-            ($_POST['seo_twitter_title_fre'] != '')
-        )
-        {
-            $seo_twitter_title_fre = $_POST['seo_twitter_title_fre'];  
-        }
-
-        if (
-            (isset($_POST['seo_twitter_title_es'])) &&
-            ($_POST['seo_twitter_title_es'] != '')
-        )
-        {
-            $seo_twitter_title_es = $_POST['seo_twitter_title_es'];
-        }  
-
-        if (
-            (isset($_POST['seo_twitter_desc_en'])) &&
-            ($_POST['seo_twitter_desc_en'] != '')
-        )
-        {
-            $seo_twitter_desc_en = $_POST['seo_twitter_desc_en'];
-        }
-
-        if (
-            (isset($_POST['seo_twitter_desc_fre'])) &&
-            ($_POST['seo_twitter_desc_fre'] != '')
-        )
-        {
-            $seo_twitter_desc_fre = $_POST['seo_twitter_desc_fre'];
-        }
-
-        if (
-            (isset($_POST['seo_twitter_desc_es'])) &&
-            ($_POST['seo_twitter_desc_es'] != '')
-        )
-        {
-            $seo_twitter_desc_es = $_POST['seo_twitter_desc_es'];
-        }
-
-        if (
-            (isset($_POST['seo_twitter_image'])) &&
-            ($_POST['seo_twitter_image'] != '')
-        )
-        {
-            $seo_twitter_image = $_POST['seo_twitter_image'];
-        }
-
-
-        if ($error == '')
-        {
-            $this->seo->seo_id                      = $seo_id;
-            $this->seo->seo_page_name               = $seo_page_name;
-            $this->seo->seo_meta_title_en           = $seo_meta_title_en;
-            $this->seo->seo_meta_title_fre          = $seo_meta_title_fre;
-            $this->seo->seo_meta_title_es           = $seo_meta_title_es;
-            $this->seo->seo_meta_desc_en            = $seo_meta_desc_en;
-            $this->seo->seo_meta_desc_fre           = $seo_meta_desc_fre;
-            $this->seo->seo_meta_desc_es            = $seo_meta_desc_es;
-            $this->seo->seo_dynamic                 = $seo_dynamic;
-            $this->seo->seo_keywords_en             = $seo_keywords_en;
-            $this->seo->seo_keywords_fre            = $seo_keywords_fre;
-            $this->seo->seo_keywords_es             = $seo_keywords_es;
-            $this->seo->seo_canonical_href          = $seo_canonical_href;
-            $this->seo->seo_no_index                = $seo_no_index;
-            $this->seo->seo_h1_text_en              = $seo_h1_text_en;
-            $this->seo->seo_h1_text_fre             = $seo_h1_text_fre;
-            $this->seo->seo_h1_text_es              = $seo_h1_text_es;
-            $this->seo->seo_h2_text_en              = $seo_h2_text_en;
-            $this->seo->seo_h2_text_fre             = $seo_h2_text_fre;
-            $this->seo->seo_h2_text_es              = $seo_h2_text_es;
-            $this->seo->seo_page_content_en         = $seo_page_content_en;
-            $this->seo->seo_page_content_fre        = $seo_page_content_fre;
-            $this->seo->seo_page_content_es         = $seo_page_content_es;
-            $this->seo->seo_og_title_en             = $seo_og_title_en;
-            $this->seo->seo_og_title_fre            = $seo_og_title_fre;
-            $this->seo->seo_og_title_es             = $seo_og_title_es;
-            $this->seo->seo_og_desc_en              = $seo_og_desc_en;
-            $this->seo->seo_og_desc_fre             = $seo_og_desc_fre;
-            $this->seo->seo_og_desc_es              = $seo_og_desc_es;
-            $this->seo->seo_og_image                = $seo_og_image;
-            $this->seo->seo_og_image_width          = $seo_og_image_width;
-            $this->seo->seo_og_image_height         = $seo_og_image_height;
-            $this->seo->seo_og_image_secure_url     = $seo_og_image_secure_url;
-            $this->seo->seo_og_type_en              = $seo_og_type_en;
-            $this->seo->seo_og_type_fre             = $seo_og_type_fre;
-            $this->seo->seo_og_type_es              = $seo_og_type_es;
-            $this->seo->seo_og_url                  = $seo_og_url;
-            $this->seo->seo_og_video                = $seo_og_video;
-            $this->seo->seo_twitter_title_en        = $seo_twitter_title_en;
-            $this->seo->seo_twitter_title_fre       = $seo_twitter_title_fre;
-            $this->seo->seo_twitter_title_es        = $seo_twitter_title_es;
-            $this->seo->seo_twitter_desc_en         = $seo_twitter_desc_en;
-            $this->seo->seo_twitter_desc_fre        = $seo_twitter_desc_fre;
-            $this->seo->seo_twitter_desc_es         = $seo_twitter_desc_es;
-            $this->seo->seo_twitter_image           = $seo_twitter_image;
-
-            $updated = $this->seo->update();
-
-            if ($updated)
-            {
-                $this->addSuccess('The page SEO data was updated', 'Success!');
-                $this->redirect('seo');
-            }
-            else
-            {
-                $this->addErrors('Something went wrong', 'Error!');
-                $this->redirect('seo');
-            }
-        }
-        else
-        {
-            $this->addErrors($error, 'Error!');
-
-            if ((isset($seo_id)) && ($seo_id != ''))
-            {
-                $this->redirect('seo', 'editPageSeo', ['pageId' => $seo_id]);
-            }
-            else
-            {
-                $this->redirect('seo');
-            }
-        } */
     }
 
 
-    /**
+
+    public function deletePageSeo(Request $request) 
+    {
+        $request->validate([
+            'pageId' => 'required|integer|exists:tyfoon_seo,id',
+        ]);
+
+        $record = $this->seo::findOrFail($request->pageId);
+        $page_name = $record->page_name;
+        $record->delete(); 
+
+        return redirect()->route('seo-home')->with('success', "The SEO data for ".$page_name." was deleted");
+    }
+
+
+    /** 
      * This method receives an AJAX call to verify & relay back to the calling
      * view code if a given page name (which should be unique) is already
      * in use or not
      */
-    public function checkPageName()
-    {
-        /*$langClass = new DGZ_Translator();
-        $lang = $this->getLang();
+    public function checkPageName(Request $request)
+    { 
+        $pageName = $request->pageName;
 
-        if (isset($_POST['pageName']))
-        {
-            $pageName = $_POST['pageName'];
-        }
-
-        $query = "SELECT * FROM seo WHERE seo_page_name = '$pageName'";
-
-        $seo = $this->seo->query($query);
+        $seo = $this->seo::where('page_name', $pageName)->first();
 
         if ($seo)
-        {
-            die("<b style='color:red'>&nbsp;&larr;
-            ".$langClass->translate($lang, 'seo.php', 'page-name-exists')."</b>");
+        { 
+            die("<b style='color:red'>&nbsp;&larr;Sorry, a page with that name already exists</b>");
         }
         else
-        {
+        { 
             //We have to return something, but because in this case we want to take no action 
             //on the form if the pageName is unique, we return a null.
             die(null);
-        }*/
-
-    }
-
-
-    public function deletePage() 
-    {
-       /* if (
-            (isset($_POST['pageId'])) &&
-            ($_POST['pageId'] != '')
-        )
-        {
-            $pageId = $_POST['pageId'];
-            $where = ['seo_id' => $pageId];
-            $deleted = $this->seo->deleteWhere($where);
-
-            if ($deleted)
-            {
-                $this->addSuccess('The page SEO data was deleted', 'Success!');
-                $this->redirect('seo');
-            }
-            else
-            {
-                $this->addErrors('Could not delete page SEO data', 'Error!');
-                $this->redirect('seo');
-            }
         }
-        else
-        {
-            $this->addErrors('Record ID not found', 'Error!');
-            $this->redirect('seo');
-        }*/
     }
 }
 

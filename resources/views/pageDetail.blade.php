@@ -82,7 +82,7 @@
 											</div>
 											<div class="col-sm-12 col-md-8 col-lg-8">
 												<div class="bg-white rounded-top p1-2">
-													{{ $data['seo_dynamic'] ?? '---' }}
+													{{ $data['dynamic'] ?? '---' }}
 												</div>
 											</div>
 										</div>
@@ -92,9 +92,9 @@
 											</div>
 											<div class="col-sm-12 col-md-8 col-lg-8">
 												<div class="bg-white rounded-top p1-2">
-													{{ $data['seo_keywords_en'] ?? '---' }}<br /><hr />
-													{{ $data['seo_keywords_fre'] ?? '---'}}<br /><hr />
-													{{ $data['seo_keywords_es'] ?? '---' }}
+													{{ $data['keywords_en'] ?? '---' }}<br /><hr />
+													{{ $data['keywords_fre'] ?? '---'}}<br /><hr />
+													{{ $data['keywords_es'] ?? '---' }}
 												</div>
 											</div>
 										</div>
@@ -247,9 +247,9 @@
 													</div>
 													<div class="col-sm-12 col-md-8 col-lg-8">
 														<div class="bg-white rounded-top p1-2">
-														{{ $data['seo_twitter_title_en'] ?? '---' }}<br /><hr />
-														{{ $data['seo_twitter_title_fre'] ?? '---'}}<br /><hr />
-														{{ $data['seo_twitter_title_es'] ?? '---' }}
+														{{ $data['twitter_title_en'] ?? '---' }}<br /><hr />
+														{{ $data['twitter_title_fre'] ?? '---'}}<br /><hr />
+														{{ $data['twitter_title_es'] ?? '---' }}
 														</div>
 													</div>
 												</div>
@@ -271,7 +271,7 @@
 													</div>
 													<div class="col-sm-12 col-md-8 col-lg-8 ">
 														<div class="bg-white rounded-top p1-2">
-															{{ $data['seo_twitter_image'] ?? '---' }}
+															{{ $data['twitter_image'] ?? '---' }}
 														</div>
 													</div>
 												</div>
