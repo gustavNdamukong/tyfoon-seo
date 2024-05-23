@@ -60,7 +60,9 @@
 										<div class="col-sm-12 col-md-12 col-lg-12 form-group">
 											<span class="font-weight-bold section-title"><small>The page name is the page for which you are creating the SEO attributes.
 												The name you enter here MUST therefore match the exact same spelling of the view file. eg for a view about-us.blade.php
-												the page name you enter here should be 'about-us'.  
+												the page name you enter here should be 'about-us'. If this file is in a sub directory in the views directory, for 
+												example for a view file users.php inside 'views/users/', you should enter its name like so:
+												'users.users'. For a view file products.php in a sub directory 'catalog/' enter its name like so: 'catalog.products'.   
 											</small></span>
 											<label for='seo_page_name'>Page Name</label><span id='info'></span>
 											<input type='text' id='seo_page_name' name='seo_page_name' class='form-control' /> 
