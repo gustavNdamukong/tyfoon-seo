@@ -1,5 +1,7 @@
 @extends('tyfoon-seo::layouts.main.app')
 
+@section('title', 'Nolimit Media-Home Page')
+
 @section('content')
 
     <!-- ==========================

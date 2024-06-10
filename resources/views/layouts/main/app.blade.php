@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html class="no-js" lang="en-gb" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="no-js" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
 	<head>
 		<!-- ==========================
 			Meta Tags
@@ -11,10 +11,16 @@
 
 		<!-- CSRF Token -->
 		<meta name="csrf-token" content="{{ csrf_token() }}">
-		<?php //$this->getGlobalSeoData() ?? '' ?>
-		<?php //($this->getMetadata() != null) ? $t</title>" ?>
 
-		<title>{{ config('app.name', 'No config app name') }}</title>
+		@if(isset($globalSeoMetadata))
+			{!! $globalSeoMetadata !!}
+		@endif 
+
+		@if(isset($pageSeoMetadata))
+			{!! $pageSeoMetadata !!}
+		@else
+			<title>@yield('title', config('app.name'))</title>
+		@endif
 
 		<!-- Google Web Fonts -->
 		<link rel="preconnect" href="https://fonts.googleapis.com">
