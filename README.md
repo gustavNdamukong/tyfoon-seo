@@ -29,7 +29,7 @@ After installation
  ## The landing page (home) of the package is the following route 
  The visit the route '/seo' in your application, for example `yourAppName/seo`
 
- ![Example Tyfoon-seo landing page](https://github.com/gustavNdamukong/tyfoon-seo/blob/master/public/images/seo-home.png?raw=true)
+ ![Example Tyfoon-seo landing page](https://github.com/gustavNdamukong/tyfoon-seo/blob/master/public/main/images/seo-home.png?raw=true)
 
  Here you can see options to create global SEO data that will be applied to all pages of your website. These include things 
  like the language the website is in, the geo-location, the site publisher, facebook/twitter ID etc
@@ -37,7 +37,7 @@ After installation
  
 ## When you click the button to create global SEO data, here is what the form looks like
 
-![Global SEO form](https://github.com/gustavNdamukong/tyfoon-seo/blob/master/public/images/seo-global.png?raw=true)
+![Global SEO form](https://github.com/gustavNdamukong/tyfoon-seo/blob/master/public/main/images/seo-global.png?raw=true)
 
 
 ## When you click the button to create SEO data for a page, here is what the form looks like
@@ -69,11 +69,11 @@ code snippet provided below in your view layouts.
 
 
 
-![SEO form for a specific page](https://github.com/gustavNdamukong/tyfoon-seo/blob/master/public/images/seo-page-1.png?raw=true)
+![SEO form for a specific page](https://github.com/gustavNdamukong/tyfoon-seo/blob/master/public/main/images/seo-page-1.png?raw=true)
 
-![SEO form for a specific page](https://github.com/gustavNdamukong/tyfoon-seo/blob/master/public/images/seo-page-2.png?raw=true)
+![SEO form for a specific page](https://github.com/gustavNdamukong/tyfoon-seo/blob/master/public/main/images/seo-page-2.png?raw=true)
 
-![SEO form for a specific page](https://github.com/gustavNdamukong/tyfoon-seo/blob/master/public/images/seo-page-3.png?raw=true)
+![SEO form for a specific page](https://github.com/gustavNdamukong/tyfoon-seo/blob/master/public/main/images/seo-page-3.png?raw=true)
 
 Make sure the page_name field value exactly matches the name of the target view file.
 
@@ -85,7 +85,8 @@ website not multi-lingual, not a problem, just ignore the non-relevant language 
 
 ### Layout file 
 
-    Note that this whould be the layout file extended by the view files you want to inject SEO data into
+    Note that this whould be the layout file extended by the view files you want to inject SEO 
+    data into.
 
 ```php 
     @if(isset($globalSeoMetadata))
@@ -101,8 +102,9 @@ website not multi-lingual, not a problem, just ignore the non-relevant language 
 
 ### Individual view file 
 
-    Tyfoon SEO provides some pieces of data that you need to inject into specific views. These are not shared by other views. 
-*   The three pieces of data are the following, which are deemed to be the most important for on-page SEO purposes: 
+    Tyfoon SEO provides some pieces of data that you need to inject into specific views. These are not 
+    shared by other views. The three pieces of data are the following, which are deemed to be the most 
+    important for on-page SEO purposes: 
 
     * H1 text
 
@@ -110,8 +112,8 @@ website not multi-lingual, not a problem, just ignore the non-relevant language 
 
     * Page content
 
-    Simple place each of them anywhere in the view file you would like the data to be injected. That is magic of it-the 
-    flexibility of it.
+    Simple place each of them anywhere in the view file you would like the data to be injected. 
+    That is magic of it-the flexibility of it.
 
 ```php 
     <h1>{!! $bodySeoData['h1_text'] !!}</h1>
