@@ -29,7 +29,7 @@ After installation
  ## The landing page (home) of the package is the following route 
  The visit the route '/seo' in your application, for example `yourAppName/seo`
 
- ![Example Tyfoon-seo landing page](https://github.com/gustavNdamukong/tyfoon-seo/blob/master/public/main/images/seo-home.png?raw=true)
+![Example Tyfoon-seo landing page](https://github.com/gustavNdamukong/tyfoon-seo/blob/main/public/main/images/seo-home.png?raw=true)
 
  Here you can see options to create global SEO data that will be applied to all pages of your website. These include things 
  like the language the website is in, the geo-location, the site publisher, facebook/twitter ID etc
@@ -37,7 +37,7 @@ After installation
  
 ## When you click the button to create global SEO data, here is what the form looks like
 
-![Global SEO form](https://github.com/gustavNdamukong/tyfoon-seo/blob/master/public/main/images/seo-global.png?raw=true)
+![Global SEO form](https://github.com/gustavNdamukong/tyfoon-seo/blob/main/public/main/images/seo-global.png?raw=true)
 
 
 ## When you click the button to create SEO data for a page, here is what the form looks like
@@ -69,11 +69,11 @@ code snippet provided below in your view layouts.
 
 
 
-![SEO form for a specific page](https://github.com/gustavNdamukong/tyfoon-seo/blob/master/public/main/images/seo-page-1.png?raw=true)
+![SEO form for a specific page](https://github.com/gustavNdamukong/tyfoon-seo/blob/main/public/main/images/seo-page-1.png?raw=true)
 
-![SEO form for a specific page](https://github.com/gustavNdamukong/tyfoon-seo/blob/master/public/main/images/seo-page-2.png?raw=true)
+![SEO form for a specific page](https://github.com/gustavNdamukong/tyfoon-seo/blob/main/public/main/images/seo-page-2.png?raw=true)
 
-![SEO form for a specific page](https://github.com/gustavNdamukong/tyfoon-seo/blob/master/public/main/images/seo-page-3.png?raw=true)
+![SEO form for a specific page](https://github.com/gustavNdamukong/tyfoon-seo/blob/main/public/main/images/seo-page-3.png?raw=true)
 
 Make sure the page_name field value exactly matches the name of the target view file.
 
@@ -102,9 +102,9 @@ website not multi-lingual, not a problem, just ignore the non-relevant language 
 
 ### Individual view file 
 
-    Tyfoon SEO provides some pieces of data that you need to inject into specific views. These are not 
-    shared by other views. The three pieces of data are the following, which are deemed to be the most 
-    important for on-page SEO purposes: 
+    Tyfoon SEO provides some pieces of data that you need to inject into specific views. 
+    These are not shared by other views. The three pieces of data are the following, 
+    which are deemed to be the most important for on-page SEO purposes: 
 
     * H1 text
 
@@ -112,8 +112,8 @@ website not multi-lingual, not a problem, just ignore the non-relevant language 
 
     * Page content
 
-    Simple place each of them anywhere in the view file you would like the data to be injected. 
-    That is magic of it-the flexibility of it.
+    Simple place each of them anywhere in the view file you would like the data to be 
+    injected. That is magic of it-the flexibility of it.
 
 ```php 
     <h1>{!! $bodySeoData['h1_text'] !!}</h1>
@@ -144,7 +144,7 @@ OR you can have them all in one place if you want
 ``` 
                             
 
-Speaking of content meant for specific pages; besides those offered by Tyfoon seo above, you mwill want to display unique titles for each page. Tyfoon seo covers that as it has a page title field in the page form, which is part of the snippet you add to your layout file. However, if you did not want or create SEO data for a specific page but need it to have a unique title, you need to manually add that to the view file like so right after extending the layout file:                   
+Speaking of content meant for specific pages; besides those offered by Tyfoon seo above, you will want to display unique titles for each page. Tyfoon seo covers that as it has a page title field in the page form, which is part of the snippet you add to your layout file. However, if you did not want or create SEO data for a specific page but need it to have a unique title, you need to manually add that to the view file like so right after extending the layout file:                   
 
 ```php 
     @extends('layouts.main.app')
