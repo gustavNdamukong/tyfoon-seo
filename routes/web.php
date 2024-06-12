@@ -24,6 +24,6 @@ Route::middleware('web')
         Route::post('/delete-page-seo', [TyfoonSeoController::class, 'deletePageSeo'])->name('delete-page-seo'); //----------------DONE
 
         //ajax route 
-        Route::post('/seo/check-page-name', [TyfoonSeoController::class, 'checkPageName'])->name('check-page-name');
+        Route::post('/seo/check-page-name', [TyfoonSeoController::class, 'checkPageName'])->name('check-page-name'); //------------DONE
     });
 

@@ -7,9 +7,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Tyfoon_Seo_global
+ * Tyfoon_seo_global
  */
-class Tyfoon_Seo_global extends Model
+class Tyfoon_seo_global extends Model
 {
     use HasFactory;
 
@@ -19,6 +19,11 @@ class Tyfoon_Seo_global extends Model
     public $timestamps = false;
 
     public $guard = [];
+
+    protected static function newFactory()
+    {
+        return \GustoCoder\TyfoonSeo\Database\Factories\Tyfoon_seo_globalFactory::new();
+    }
 }
 
 
