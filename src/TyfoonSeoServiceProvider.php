@@ -13,6 +13,7 @@ class TyfoonSeoServiceProvider extends ServiceProvider
     private $globalSeoHTML = [];
     private $pageHeaderSeoHTML = [];
     private $pageBodySeoHTML = [];
+    private $indentation = 10;
 
     /**
      * Register any application services.
@@ -264,7 +265,7 @@ class TyfoonSeoServiceProvider extends ServiceProvider
 	{
 		$metatagHtml = '';
 		foreach ($this->globalSeoHTML as $data) {
-			$metatagHtml .= html_entity_decode($data) . PHP_EOL; 
+			$metatagHtml .= $this->indent() . html_entity_decode($data) . PHP_EOL; 
 		}
 		return $metatagHtml;
 	}
@@ -273,8 +274,13 @@ class TyfoonSeoServiceProvider extends ServiceProvider
 	{
 		$metatagHtml = '';
 		foreach ($this->pageHeaderSeoHTML as $data) { 
-			$metatagHtml .= html_entity_decode($data) . PHP_EOL;
+			$metatagHtml .= $this->indent() . html_entity_decode($data) . PHP_EOL;
 		}
 		return $metatagHtml;
 	}
+
+    private function indent()
+    {
+        return str_repeat(' ', $this->indentation);
+    }
 }
