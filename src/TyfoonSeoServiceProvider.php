@@ -2,11 +2,13 @@
 
 namespace Gustocoder\TyfoonSeo;
 
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Gustocoder\TyfoonSeo\Models\Tyfoon_seo_global;
 use Gustocoder\TyfoonSeo\Models\Tyfoon_seo;
 use Illuminate\Support\Facades;
 use Illuminate\View\View;
+
 
 class TyfoonSeoServiceProvider extends ServiceProvider
 {
