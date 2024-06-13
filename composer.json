@@ -8,12 +8,6 @@
             "Gustocoder\\TyfoonSeo\\": "src/"
         }
     },
-    "autoload-dev": {
-        "psr-4": {
-            "Gustocoder\\TyfoonSeo\\Tests\\": "tests/",
-            "GustoCoder\\TyfoonSeo\\Database\\Factories\\": "database/factories/"
-        }
-    },
     "extra": {
         "laravel": {
             "providers": [
@@ -28,6 +22,5 @@
     ],
     "minimum-stability": "stable",
     "prefer-stable": true,
-    "gustocoder/tyfoon-seo": "^1.0",
     "version": "1.0.0"
 }
