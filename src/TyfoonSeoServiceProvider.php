@@ -126,143 +126,144 @@ class TyfoonSeoServiceProvider extends ServiceProvider
                         ]);
                 });
             }
-        } 
+        
         
 
-        //Retrieve data of specific views for which seo data was created
-        $data = Tyfoon_seo::select('page_name')->get()->toArray();
+            //Retrieve data of specific views for which seo data was created
+            $data = Tyfoon_seo::select('page_name')->get()->toArray();
 
-        //build that seo HTML & share it with the view
-        foreach ($data as $dat)
-        {
-            Facades\View::composer($dat['page_name'], function (View $view) {
-                $viewName = $view->getName();
-                //Retrieve the target view's SEO data
-                $pageSeoData = Tyfoon_seo::where('page_name', $viewName)->first();
+            //build that seo HTML & share it with the view
+            foreach ($data as $dat)
+            {
+                Facades\View::composer($dat['page_name'], function (View $view) {
+                    $viewName = $view->getName();
+                    //Retrieve the target view's SEO data
+                    $pageSeoData = Tyfoon_seo::where('page_name', $viewName)->first();
 
-                if ($pageSeoData)
-                {
-                    $lang = config('app.locale', 'en');
-
-                    //We only need 3 pieces of SEO data for the body section
-                    $this->pageBodySeoHTML['h1_text'] = isset($pageSeoData['h1_text_'.$lang]) ? $pageSeoData['h1_text_'.$lang] : '';
-                    $this->pageBodySeoHTML['h2_text'] = isset($pageSeoData['h2_text_'.$lang]) ? $pageSeoData['h2_text_'.$lang] : '';
-                    $this->pageBodySeoHTML['page_content'] = isset($pageSeoData['page_content_'.$lang]) ? $pageSeoData['page_content_'.$lang] : '';
-                    
-                    //build the head tag SEO data
-                    $descProp = 'meta_desc_'.$lang;
-                    if (isset($pageSeoData->$descProp))
+                    if ($pageSeoData)
                     {
-                        $this->pageHeaderSeoHTML[] = htmlentities('<meta name="description" content="'.$pageSeoData->$descProp.'">');
+                        $lang = config('app.locale', 'en');
+
+                        //We only need 3 pieces of SEO data for the body section
+                        $this->pageBodySeoHTML['h1_text'] = isset($pageSeoData['h1_text_'.$lang]) ? $pageSeoData['h1_text_'.$lang] : '';
+                        $this->pageBodySeoHTML['h2_text'] = isset($pageSeoData['h2_text_'.$lang]) ? $pageSeoData['h2_text_'.$lang] : '';
+                        $this->pageBodySeoHTML['page_content'] = isset($pageSeoData['page_content_'.$lang]) ? $pageSeoData['page_content_'.$lang] : '';
+                        
+                        //build the head tag SEO data
+                        $descProp = 'meta_desc_'.$lang;
+                        if (isset($pageSeoData->$descProp))
+                        {
+                            $this->pageHeaderSeoHTML[] = htmlentities('<meta name="description" content="'.$pageSeoData->$descProp.'">');
+                        }
+
+                        $keywordsProp = 'seo_keywords_'.$lang;
+                        if (isset($pageSeoData->$keywordsProp))
+                        {
+                            $this->pageHeaderSeoHTML[] = htmlentities('<meta name="keywords" content="'.$pageSeoData->$keywordsProp.'">');
+                        }
+
+                        //OG stuff
+                        $ogTitleProp = 'seo_og_title_'.$lang;
+                        if (isset($pageSeoData->$ogTitleProp))
+                        {
+                            $this->pageHeaderSeoHTML[] = htmlentities('<meta property="og:title" content="'.$pageSeoData->$ogTitleProp.'" />');
+                        }
+
+                        $ogDescProp = 'seo_og_desc_'.$lang;
+                        if (isset($pageSeoData->$ogDescProp))
+                        {
+                            $this->pageHeaderSeoHTML[] = htmlentities('<meta property="og:description" content="'.$pageSeoData->$ogDescProp.'" />');
+                        }
+
+                        if (isset($pageSeoData->og_image))
+                        {
+                            //The image fully qualified path must have been saved in this DB field
+                            //instruct the user to put the fully qualified image URL in the form field. They should test in browser first to confirm
+                            //that it works eg 'http://dorguzen/assets/social/site.png'
+                            $this->pageHeaderSeoHTML[] = htmlentities('<meta property="og:image" content="'.$pageSeoData->og_image.'" />');
+                        }
+                        if (isset($pageSeoData->og_image_secure_url))
+                        {
+                            //The image fully qualified path must have been saved in this DB field
+                            //instruct the user to put the fully qualified image URL in the form field. They should test in browser first to confirm
+                            //that it works eg: 'https://dorguzen/assets/social/site.png'
+                            $this->pageHeaderSeoHTML[] = htmlentities('<meta property="og:image:secure_url" content="'.$pageSeoData->og_image_secure_url.'" />');
+                        }
+                        if (isset($pageSeoData->og_image_width))
+                        {
+                            $this->pageHeaderSeoHTML[] = htmlentities('<meta property="og:image:width" content="'.$pageSeoData->og_image_width.'" />');
+                        }
+                        if (isset($pageSeoData->og_image_height))
+                        {
+                            $this->pageHeaderSeoHTML[] = htmlentities('<meta property="og:image:height" content="'.$pageSeoData->og_image_height.'" />');
+                        }
+                        if (isset($pageSeoData->og_video))
+                        {
+                            //Advice the user when entering this data in trhe form to provide the 'https' version of the video URL, else FB will reject it
+                            $this->pageHeaderSeoHTML[] = htmlentities('<meta property="og:video" content="'.$pageSeoData->og_video.'" />');
+                        }
+
+                        $ogTypeProp = 'og_type_'.$lang;
+                        if (isset($pageSeoData->$ogTypeProp))
+                        {
+                            $this->pageHeaderSeoHTML[] = htmlentities('<meta property="og:type" content="'.$pageSeoData->$ogTypeProp.'" />');
+                        }
+                        if (isset($pageSeoData[0]->og_url))
+                        {
+                            $this->pageHeaderSeoHTML[] = htmlentities('<meta property="og:url" content="'.$pageSeoData->og_url.'" />');
+                        }
+
+
+                        //Twitter Card stuff
+                        $twitterTitleProp = 'twitter_title_'.$lang;
+                        if (isset($pageSeoData->$twitterTitleProp))
+                        {
+                            $this->pageHeaderSeoHTML[] = htmlentities('<meta name="twitter:title" content="'.$pageSeoData->$twitterTitleProp.'" />');
+                        }  
+                        
+                        $twitterDescProp = 'twitter_desc_'.$lang;
+                        if (isset($pageSeoData->$twitterDescProp))
+                        {
+                            $this->pageHeaderSeoHTML[] = htmlentities('<meta name="twitter:description" content="'.$pageSeoData->$twitterDescProp.'" />');
+                        } 
+                        if (isset($pageSeoData->twitter_image))
+                        {
+                            //The fully qualified path must have been saved in this DB field
+                            $this->pageHeaderSeoHTML[] = htmlentities('<meta name="twitter:image" content="'.$pageSeoData->twitter_image.'" />');
+                        } 
+                        if (
+                            (isset($pageSeoData->canonical_href)) &&
+                            ($pageSeoData->canonical_href == 1)
+                        )    
+                        {
+                            //the full qualified URL path comes from the DB, so we just insert it into the href attribute
+                            $this->pageHeaderSeoHTML[] = htmlentities('<link rel="canonical" href="'.$pageSeoData->canonical_href.'" />');
+                        }
+                        if (
+                            (isset($pageSeoData->no_index)) &&
+                            ($pageSeoData->no_index == 1)
+                        )    
+                        {
+                            $this->pageHeaderSeoHTML[] = htmlentities('<meta name="robots" content="noindex">');
+                        }
+
+                        $titleProp = 'meta_title_' . $lang; 
+                        if (isset($pageSeoData->$titleProp)) 
+                        {
+                            $this->pageHeaderSeoHTML[] = htmlentities("<title>".$pageSeoData->$titleProp."</title>");
+                        } 
                     }
 
-                    $keywordsProp = 'seo_keywords_'.$lang;
-                    if (isset($pageSeoData->$keywordsProp))
-                    {
-                        $this->pageHeaderSeoHTML[] = htmlentities('<meta name="keywords" content="'.$pageSeoData->$keywordsProp.'">');
-                    }
+                    //prepare array data to inject into view as a string
+                    $pageSeoMetadata = $this->getPageSeoMetadata();
 
-                    //OG stuff
-                    $ogTitleProp = 'seo_og_title_'.$lang;
-                    if (isset($pageSeoData->$ogTitleProp))
-                    {
-                        $this->pageHeaderSeoHTML[] = htmlentities('<meta property="og:title" content="'.$pageSeoData->$ogTitleProp.'" />');
-                    }
-
-                    $ogDescProp = 'seo_og_desc_'.$lang;
-                    if (isset($pageSeoData->$ogDescProp))
-                    {
-                        $this->pageHeaderSeoHTML[] = htmlentities('<meta property="og:description" content="'.$pageSeoData->$ogDescProp.'" />');
-                    }
-
-                    if (isset($pageSeoData->og_image))
-                    {
-                        //The image fully qualified path must have been saved in this DB field
-                        //instruct the user to put the fully qualified image URL in the form field. They should test in browser first to confirm
-                        //that it works eg 'http://dorguzen/assets/social/site.png'
-                        $this->pageHeaderSeoHTML[] = htmlentities('<meta property="og:image" content="'.$pageSeoData->og_image.'" />');
-                    }
-                    if (isset($pageSeoData->og_image_secure_url))
-                    {
-                        //The image fully qualified path must have been saved in this DB field
-                        //instruct the user to put the fully qualified image URL in the form field. They should test in browser first to confirm
-                        //that it works eg: 'https://dorguzen/assets/social/site.png'
-                        $this->pageHeaderSeoHTML[] = htmlentities('<meta property="og:image:secure_url" content="'.$pageSeoData->og_image_secure_url.'" />');
-                    }
-                    if (isset($pageSeoData->og_image_width))
-                    {
-                        $this->pageHeaderSeoHTML[] = htmlentities('<meta property="og:image:width" content="'.$pageSeoData->og_image_width.'" />');
-                    }
-                    if (isset($pageSeoData->og_image_height))
-                    {
-                        $this->pageHeaderSeoHTML[] = htmlentities('<meta property="og:image:height" content="'.$pageSeoData->og_image_height.'" />');
-                    }
-                    if (isset($pageSeoData->og_video))
-                    {
-                        //Advice the user when entering this data in trhe form to provide the 'https' version of the video URL, else FB will reject it
-                        $this->pageHeaderSeoHTML[] = htmlentities('<meta property="og:video" content="'.$pageSeoData->og_video.'" />');
-                    }
-
-                    $ogTypeProp = 'og_type_'.$lang;
-                    if (isset($pageSeoData->$ogTypeProp))
-                    {
-                        $this->pageHeaderSeoHTML[] = htmlentities('<meta property="og:type" content="'.$pageSeoData->$ogTypeProp.'" />');
-                    }
-                    if (isset($pageSeoData[0]->og_url))
-                    {
-                        $this->pageHeaderSeoHTML[] = htmlentities('<meta property="og:url" content="'.$pageSeoData->og_url.'" />');
-                    }
-
-
-                    //Twitter Card stuff
-                    $twitterTitleProp = 'twitter_title_'.$lang;
-                    if (isset($pageSeoData->$twitterTitleProp))
-                    {
-                        $this->pageHeaderSeoHTML[] = htmlentities('<meta name="twitter:title" content="'.$pageSeoData->$twitterTitleProp.'" />');
-                    }  
-                    
-                    $twitterDescProp = 'twitter_desc_'.$lang;
-                    if (isset($pageSeoData->$twitterDescProp))
-                    {
-                        $this->pageHeaderSeoHTML[] = htmlentities('<meta name="twitter:description" content="'.$pageSeoData->$twitterDescProp.'" />');
-                    } 
-                    if (isset($pageSeoData->twitter_image))
-                    {
-                        //The fully qualified path must have been saved in this DB field
-                        $this->pageHeaderSeoHTML[] = htmlentities('<meta name="twitter:image" content="'.$pageSeoData->twitter_image.'" />');
-                    } 
-                    if (
-                        (isset($pageSeoData->canonical_href)) &&
-                        ($pageSeoData->canonical_href == 1)
-                    )    
-                    {
-                        //the full qualified URL path comes from the DB, so we just insert it into the href attribute
-                        $this->pageHeaderSeoHTML[] = htmlentities('<link rel="canonical" href="'.$pageSeoData->canonical_href.'" />');
-                    }
-                    if (
-                        (isset($pageSeoData->no_index)) &&
-                        ($pageSeoData->no_index == 1)
-                    )    
-                    {
-                        $this->pageHeaderSeoHTML[] = htmlentities('<meta name="robots" content="noindex">');
-                    }
-
-                    $titleProp = 'meta_title_' . $lang; 
-                    if (isset($pageSeoData->$titleProp)) 
-                    {
-                        $this->pageHeaderSeoHTML[] = htmlentities("<title>".$pageSeoData->$titleProp."</title>");
-                    } 
-                }
-
-                //prepare array data to inject into view as a string
-                $pageSeoMetadata = $this->getPageSeoMetadata();
-
-                view()->share(
-                    [ 
-                        'pageSeoMetadata'   => $pageSeoMetadata,
-                        'bodySeoData'       => $this->pageBodySeoHTML
-                    ]);
-            });
+                    view()->share(
+                        [ 
+                            'pageSeoMetadata'   => $pageSeoMetadata,
+                            'bodySeoData'       => $this->pageBodySeoHTML
+                        ]);
+                });
+            }
         }
     }
 
