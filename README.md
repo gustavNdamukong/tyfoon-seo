@@ -9,10 +9,6 @@ Laravel seo package. Optimize your web pages for seo. It will walk you through t
 ```
 
 After installation
- The stylesheets should be created for you in:
- 
-      'public/vendor/tyfoon-seo/main/'
-
  The migration files will be published for you in:
 
       'database/migrations/'
@@ -20,13 +16,34 @@ After installation
  If not, you can publish them by running this command in your CLI  :
 
 ```bash 
-    php artisan vendor:publish
+    php artisan vendor:publish --tag=tyfoon-seo-migrations
+```
+
+ Next, run the migrations to create the seo DB tables   :
+
+```bash 
+    php artisan migrate
+```
+
+OR
+
+ You may choose to run only the migrations for your seo tables-leaving your other 
+ application DB tables alone. Run these two migrations one after the other.
+ Just verify in your 'database/migrations' directory that the filenames below are correct   :
+
+```bash 
+    php artisan migrate:refresh --path=/database/migrations/2024_05_14_091500_create_tyfoon_seo_global_table.php
+
+    php artisan migrate:refresh --path=/database/migrations/2024_05_14_091510_create_tyfoon_seo_table.php
 ```
  
  If you have issues, make sure that the TyfoonSeoServiceProvider class is registered in your
  /bootstrap/providers.php. 
 
- ## The landing page (home) of the package is the following route 
+
+ # Using the package
+ ## The landing page (home) route of the package is the following 
+
  The visit the route '/seo' in your application, for example `yourAppName/seo`
 
 ![Example Tyfoon-seo landing page](https://github.com/gustavNdamukong/tyfoon-seo/blob/main/public/main/images/seo-home.png?raw=true)
