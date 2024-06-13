@@ -28,6 +28,6 @@
     ],
     "minimum-stability": "stable",
     "prefer-stable": true,
-    "require": {},
+    "gustocoder/tyfoon-seo": "^1.0",
     "version": "1.0.0"
 }
