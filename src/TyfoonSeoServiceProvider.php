@@ -35,92 +35,95 @@ class TyfoonSeoServiceProvider extends ServiceProvider
         //load migrations
         $this->publishes([
             __DIR__.'/../database/migrations' => database_path('migrations'),
-        ]);
+        ], 'tyfoon-seo-migrations');
 
         $this->publishes([
             __DIR__.'/../public' => public_path('vendor/tyfoon-seo'),
-        ], 'public');
+        ], 'tyfoon-seo-public');
 
 
 
 
 
-        //PREPARE & INJECT SEO DATA INTO RELEVANT VIEWS
-        //Retrieve the global SEO data
-        $globalSeoData = Tyfoon_seo_global::first();
+        if (Schema::hasTable('tyfoon_seo_global') && Schema::hasTable('tyfoon_seo')) 
+        {
+            //Prepare to inject SEO data into relevant views
+            //Retrieve the global SEO data
+            $globalSeoData = Tyfoon_seo_global::first();
 
-        if ($globalSeoData)
-        { 
-            if (isset($globalSeoData->og_locale))
+            if ($globalSeoData)
             { 
-                $this->globalSeoHTML[] = htmlentities('<meta property="og:locale:alternate" content="'.$globalSeoData->og_locale.'" />');
-            }
+                if (isset($globalSeoData->og_locale))
+                { 
+                    $this->globalSeoHTML[] = htmlentities('<meta property="og:locale:alternate" content="'.$globalSeoData->og_locale.'" />');
+                }
 
-            if (isset($globalSeoData->og_site))
-            {
-                $this->globalSeoHTML[] = htmlentities('<meta property="og:site_name" content="'.$globalSeoData->og_site.'" />');
-            }
-            if (isset($globalSeoData->og_article_publisher))
-            {
-                //This is the https fully qualified path to the personal/business facebook page of this site owner
-                $this->globalSeoHTML[] = htmlentities('<meta property="article:publisher" content="'.$globalSeoData->og_article_publisher.'" />');
-            }
-            if (isset($globalSeoData->og_author))
-            {
-                //This is the https fully qualified path to the personal facebook page of this site owner 
-                $this->globalSeoHTML[] = htmlentities('<meta property="article:author" content="'.$globalSeoData->global_og_author.'" />');
-            }
-            if (isset($globalSeoData->geo_placename)) 
-            {
-                //The example values here can be 'England', or 'London'
-                $this->globalSeoHTML[] = htmlentities('<meta name="geo.placename" content="'.$globalSeoData->geo_placename.'" />');
-            }
-            if (isset($globalSeoData->geo_region)) 
-            {
-                //The international abbreviation for the location country eg 'UK'
-                $this->globalSeoHTML[] = htmlentities('<meta name="geo.region" content="'.$globalSeoData->geo_region.'" />');
-            }
-            if (isset($globalSeoData->geo_position))   
-            {
-                //This will be the geo coordinates of the site location eg '7.369722;12.354722'
-                $this->globalSeoHTML[] = htmlentities('<meta name="geo.position" content="'.$globalSeoData->geo_position.'" />');
-            }
-            if (isset($globalSeoData->fb_id))    
-            {
-                $this->globalSeoHTML[] = htmlentities('<meta property="fb:app_id" content="'.$globalSeoData->fb_id.'" />');
-            }
-            if (isset($globalSeoData->twitter_card))    
-            {
-                //An example value could be 'summary', or 'article' etc
-                $this->globalSeoHTML[] = htmlentities('<meta name="twitter:card" content="'.$globalSeoData->twitter_card.'" />');
-            }
-            if (isset($globalSeoData->twitter_site))    
-            {
-                //This is the ID of the Twitter account of this website
-                $this->globalSeoHTML[] = htmlentities('<meta name="twitter:site" content="'.$globalSeoData->twitter_site.'" />');  
-            }
-            if (isset($globalSeoData->reflang_alternate1))    
-            {
-                //If your site has alternative versions in different languages. The values can be 'en-ca', or 'fr-ca' 
-                //for a Canadian site in French and English etc
-                $this->globalSeoHTML[] = htmlentities('<link rel="alternate" href="/home" hreflang="'.$globalSeoData->reflang_alternate1.'" />');
-            }
-            if (isset($globalSeoData->reflang_alternate2))    
-            {
-                //If your site has alternative versions in different languages. The values can be 'en-ca', or 'fr-ca' 
-                //for a Canadian site in French and English etc
-                $this->globalSeoHTML[] = htmlentities('<link rel="alternate" href="/home" hreflang="'.$globalSeoData->reflang_alternate2.'" />');
-            }
+                if (isset($globalSeoData->og_site))
+                {
+                    $this->globalSeoHTML[] = htmlentities('<meta property="og:site_name" content="'.$globalSeoData->og_site.'" />');
+                }
+                if (isset($globalSeoData->og_article_publisher))
+                {
+                    //This is the https fully qualified path to the personal/business facebook page of this site owner
+                    $this->globalSeoHTML[] = htmlentities('<meta property="article:publisher" content="'.$globalSeoData->og_article_publisher.'" />');
+                }
+                if (isset($globalSeoData->og_author))
+                {
+                    //This is the https fully qualified path to the personal facebook page of this site owner 
+                    $this->globalSeoHTML[] = htmlentities('<meta property="article:author" content="'.$globalSeoData->global_og_author.'" />');
+                }
+                if (isset($globalSeoData->geo_placename)) 
+                {
+                    //The example values here can be 'England', or 'London'
+                    $this->globalSeoHTML[] = htmlentities('<meta name="geo.placename" content="'.$globalSeoData->geo_placename.'" />');
+                }
+                if (isset($globalSeoData->geo_region)) 
+                {
+                    //The international abbreviation for the location country eg 'UK'
+                    $this->globalSeoHTML[] = htmlentities('<meta name="geo.region" content="'.$globalSeoData->geo_region.'" />');
+                }
+                if (isset($globalSeoData->geo_position))   
+                {
+                    //This will be the geo coordinates of the site location eg '7.369722;12.354722'
+                    $this->globalSeoHTML[] = htmlentities('<meta name="geo.position" content="'.$globalSeoData->geo_position.'" />');
+                }
+                if (isset($globalSeoData->fb_id))    
+                {
+                    $this->globalSeoHTML[] = htmlentities('<meta property="fb:app_id" content="'.$globalSeoData->fb_id.'" />');
+                }
+                if (isset($globalSeoData->twitter_card))    
+                {
+                    //An example value could be 'summary', or 'article' etc
+                    $this->globalSeoHTML[] = htmlentities('<meta name="twitter:card" content="'.$globalSeoData->twitter_card.'" />');
+                }
+                if (isset($globalSeoData->twitter_site))    
+                {
+                    //This is the ID of the Twitter account of this website
+                    $this->globalSeoHTML[] = htmlentities('<meta name="twitter:site" content="'.$globalSeoData->twitter_site.'" />');  
+                }
+                if (isset($globalSeoData->reflang_alternate1))    
+                {
+                    //If your site has alternative versions in different languages. The values can be 'en-ca', or 'fr-ca' 
+                    //for a Canadian site in French and English etc
+                    $this->globalSeoHTML[] = htmlentities('<link rel="alternate" href="/home" hreflang="'.$globalSeoData->reflang_alternate1.'" />');
+                }
+                if (isset($globalSeoData->reflang_alternate2))    
+                {
+                    //If your site has alternative versions in different languages. The values can be 'en-ca', or 'fr-ca' 
+                    //for a Canadian site in French and English etc
+                    $this->globalSeoHTML[] = htmlentities('<link rel="alternate" href="/home" hreflang="'.$globalSeoData->reflang_alternate2.'" />');
+                }
 
-            //Share to all views
-            //prepare array data to inject into view as a string
-            Facades\View::composer('*', function (View $view) {
-                $globalSeoMetadata = $this->getGlobalSeoMetadata();
-                view()->share(
-                    [
-                        'globalSeoMetadata' => $globalSeoMetadata, 
-                    ]);
-            });
+                //Share to all views
+                //prepare array data to inject into view as a string
+                Facades\View::composer('*', function (View $view) {
+                    $globalSeoMetadata = $this->getGlobalSeoMetadata();
+                    view()->share(
+                        [
+                            'globalSeoMetadata' => $globalSeoMetadata, 
+                        ]);
+                });
+            }
         } 
         
 
