@@ -26,6 +26,6 @@
             "name": "Gustav Ndamukong"
         }
     ],
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "prefer-stable": true
 }
