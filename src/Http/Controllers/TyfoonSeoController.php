@@ -67,15 +67,7 @@ class TyfoonSeoController extends Controller
             "seo_global_geo_placename" =>           'required',
             "seo_global_geo_region" =>              'required',
             "seo_global_geo_position" =>            'required',
-            "seo_global_reflang_alternate1" =>      'required',
-            "seo_global_reflang_alternate2" =>      'required',
             "seo_global_og_locale" =>               'required',
-            "seo_global_og_site" =>                 'required',
-            "seo_global_og_article_publisher" =>    'required',
-            "seo_global_og_author" =>               'required',
-            "seo_global_fb_id" =>                   'required',
-            "seo_global_twitter_card" =>            'required',
-            "seo_global_twitter_site" =>            'required',
         ]);
 
         $this->seo_global->geo_placename         = $request->seo_global_geo_placename;
